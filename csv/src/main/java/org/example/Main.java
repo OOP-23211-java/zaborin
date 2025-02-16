@@ -1,13 +1,14 @@
 package org.example;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
 import java.io.IOException;
 public class Main {
     public static void main(String[] args) {
-        try {
-            Reader read = new Reader("1.txt");
+        try (BufferedReader reader = new BufferedReader(new FileReader("1.txt"))) {
+            WordCounter word_counter = new WordCounter(reader);
 
-            WordCounter word_counter = new WordCounter(read);
-            word_counter.processing();
+            word_counter.process();
 
             CSVWriter writer = new CSVWriter();
             writer.write(word_counter);
@@ -18,3 +19,5 @@ public class Main {
 
     }
 }
+
+

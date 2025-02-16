@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.util.List;
 import java.util.Map;
@@ -17,23 +18,23 @@ import static org.mockito.Mockito.*;
 class WordCounterTest {
 
     private WordCounter wordCounter;
-    private Reader readerMock;
+    private BufferedReader readerMock;
 
     @BeforeEach
     public void setUp() {
-        readerMock = mock(Reader.class);
+        readerMock = mock(BufferedReader.class);
         wordCounter = new WordCounter(readerMock);
     }
 
     @Test
-    public void testProcessing() throws IOException {
-        when(readerMock.read_line())
+    public void testProcess() throws IOException {
+        when(readerMock.readLine())
                 .thenReturn("hello world")
                 .thenReturn("hello")
                 .thenReturn("world world")
                 .thenReturn(null);
 
-        wordCounter.processing();
+        wordCounter.process();
 
         Map<Integer, List<String>> expected = new TreeMap<>();
         expected.put(2, List.of("hello"));
@@ -42,22 +43,22 @@ class WordCounterTest {
         assertEquals(expected, wordCounter.sorted_word_count);
     }
     @Test
-    public void testProcessingEmptyLine() throws IOException {
-        when(readerMock.read_line())
+    public void testProcessEmptyLine() throws IOException {
+        when(readerMock.readLine())
                 .thenReturn("")
                 .thenReturn(null);
 
-        wordCounter.processing();
+        wordCounter.process();
 
         assertTrue(wordCounter.sorted_word_count.isEmpty());
     }
     @Test
-    public void testProcessingSingleWordRepeated() throws IOException {
-        when(readerMock.read_line())
+    public void testProcessSingleWordRepeated() throws IOException {
+        when(readerMock.readLine())
                 .thenReturn("apple apple apple")
                 .thenReturn(null);
 
-        wordCounter.processing();
+        wordCounter.process();
 
         Map<Integer, List<String>> expected = new TreeMap<>();
         expected.put(3, List.of("apple"));
@@ -65,12 +66,12 @@ class WordCounterTest {
         assertEquals(expected, wordCounter.sorted_word_count);
     }
     @Test
-    public void testProcessingSpacesAroundWords() throws IOException {
-        when(readerMock.read_line())
+    public void testProcessSpacesAroundWords() throws IOException {
+        when(readerMock.readLine())
                 .thenReturn("  apple  orange ")
                 .thenReturn(null);
 
-        wordCounter.processing();
+        wordCounter.process();
 
         Map<Integer, List<String>> expected = new TreeMap<>();
         expected.put(1, List.of("orange", "apple"));
