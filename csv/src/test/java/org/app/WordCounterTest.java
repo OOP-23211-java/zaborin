@@ -1,8 +1,8 @@
-package org.example;
+package org.app;
 
 import com.google.common.collect.Multimap;
-import org.example.Reader;
-import org.example.WordCounter;
+import org.app.Reader;
+import org.app.WordCounter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
