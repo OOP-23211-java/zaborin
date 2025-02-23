@@ -1,5 +1,6 @@
 package org.example;
 
+import com.google.common.collect.Multimap;
 import org.example.Reader;
 import org.example.WordCounter;
 import org.junit.jupiter.api.BeforeEach;
@@ -8,12 +9,10 @@ import org.mockito.Mockito;
 
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.List;
-import java.util.Map;
-import java.util.TreeMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
+import com.google.common.collect.TreeMultimap;
 
 class WordCounterTest {
 
@@ -36,11 +35,11 @@ class WordCounterTest {
 
         wordCounter.process();
 
-        Map<Integer, List<String>> expected = new TreeMap<>();
-        expected.put(2, List.of("hello"));
-        expected.put(3, List.of("world"));
+        Multimap<Integer,String> expected = TreeMultimap.create();
+        expected.put(2, "hello");
+        expected.put(3, "world");
 
-        assertEquals(expected, wordCounter.sorted_word_count);
+        assertEquals(expected, wordCounter.sortedWordCount);
     }
     @Test
     public void testProcessEmptyLine() throws IOException {
@@ -50,7 +49,7 @@ class WordCounterTest {
 
         wordCounter.process();
 
-        assertTrue(wordCounter.sorted_word_count.isEmpty());
+        assertTrue(wordCounter.sortedWordCount.isEmpty());
     }
     @Test
     public void testProcessSingleWordRepeated() throws IOException {
@@ -60,10 +59,10 @@ class WordCounterTest {
 
         wordCounter.process();
 
-        Map<Integer, List<String>> expected = new TreeMap<>();
-        expected.put(3, List.of("apple"));
+        Multimap<Integer, String> expected = TreeMultimap.create();
+        expected.put(3, "apple");
 
-        assertEquals(expected, wordCounter.sorted_word_count);
+        assertEquals(expected, wordCounter.sortedWordCount);
     }
     @Test
     public void testProcessSpacesAroundWords() throws IOException {
@@ -73,10 +72,13 @@ class WordCounterTest {
 
         wordCounter.process();
 
-        Map<Integer, List<String>> expected = new TreeMap<>();
-        expected.put(1, List.of("orange", "apple"));
+        Multimap<Integer, String> expected = TreeMultimap.create();;
+        expected.put(1, "orange");
+        expected.put(1, "apple");
 
-        assertEquals(expected, wordCounter.sorted_word_count);
+        assertEquals(expected, wordCounter.sortedWordCount);
     }
 
 }
+
+
