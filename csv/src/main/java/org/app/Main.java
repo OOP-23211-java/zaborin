@@ -1,20 +1,27 @@
 package org.app;
 
-import java.io.BufferedReader;
 import java.io.FileReader;
-import java.io.IOException;
 
 public class Main {
     public static void main(String[] args) {
-        try (BufferedReader reader = new BufferedReader(new FileReader("1.txt"))) {
-            WordCounter wordCounter = new WordCounter(reader);
+        String fileName;
+        try {
+             fileName = Validator.validateFileArgument(args);
 
-            wordCounter.process();
+        } catch (IllegalArgumentException e) {
+            e.printStackTrace();
+            return;
+        }
+
+        try (IReader reader = new MyBufferedReader(new FileReader(fileName))) {
+            WordCounter WordCounter = new WordCounter(reader);
+
+            WordCounter.process();
 
             CSVWriter writer = new CSVWriter();
-            writer.write(wordCounter);
+            writer.write(WordCounter);
 
-        }catch (IOException e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
 

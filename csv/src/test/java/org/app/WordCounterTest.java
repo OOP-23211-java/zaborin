@@ -1,13 +1,9 @@
 package org.app;
 
 import com.google.common.collect.Multimap;
-import org.app.Reader;
-import org.app.WordCounter;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
 
-import java.io.BufferedReader;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -17,11 +13,11 @@ import com.google.common.collect.TreeMultimap;
 class WordCounterTest {
 
     private WordCounter wordCounter;
-    private BufferedReader readerMock;
+    private IReader readerMock;
 
     @BeforeEach
     public void setUp() {
-        readerMock = mock(BufferedReader.class);
+        readerMock = mock(MyBufferedReader.class);
         wordCounter = new WordCounter(readerMock);
     }
 
@@ -80,5 +76,3 @@ class WordCounterTest {
     }
 
 }
-
-

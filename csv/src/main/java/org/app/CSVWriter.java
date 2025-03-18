@@ -1,15 +1,14 @@
 package org.app;
-
-import java.util.List;
-import java.util.Map;
-
+/**
+ * Класс {@code CSVWriter} предназначен для записи данных из объекта {@link WordCounter}
+ * в формате CSV.
+ * слово и количество повторений разделены символом ;.
+ */
 public class CSVWriter {
-    public void write(WordCounter wordCounter){
-        for (var entry : wordCounter.sortedWordCount.entries()) {
+    public void write(WordCounter WordCounter){
+        for (var entry : WordCounter.sortedWordCount.entries()) {
             int key = entry.getKey();
                 System.out.println(entry.getValue() + ";" + key);
         }
     }
 }
-
-
